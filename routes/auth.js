@@ -58,7 +58,7 @@ router.post('/register', async (req, res) => {
             text:
                 'You are receiving this because you have registered a new Vitae Opus account under this email.\n\n'
                 + 'Please click on the following link, or paste this into your browser to verify your account:\n\n'
-                + `https://ekodex.netlify.app/verify/${token}\n`
+                + `http://localhost:4200/verify/${token}\n`
         };
 
         transporter.sendMail(mailOptions, (err, response) => {
@@ -87,6 +87,10 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({ username: req.body.username });
     if (!user)
         return res.status(400).send({error: 'Username or password does not match any existing records.'});
+
+    // Check if user has verified their email.
+    if (!user.verified)
+        return res.status(400).send({error: 'This user has not verified the email provided yet.'});
     
     // Check if password is correct.
     const validPass = await bcrypt.compare(req.body.password, user.password);
