@@ -58,18 +58,16 @@ router.post('/register', async (req, res) => {
             text:
                 'You are receiving this because you have registered a new Vitae Opus account under this email.\n\n'
                 + 'Please click on the following link, or paste this into your browser to verify your account:\n\n'
-                + `http://localhost:4200/verify/${token}\n`
+                + `https://vitae-opus-server.herokuapp.com/verify/${token}\n`
         };
 
         transporter.sendMail(mailOptions, (err, response) => {
             if (err) {
                 res.status(400).send(err);
             } else {
-                res.status(200).json('verification email sent.');
+                res.send({ user: user._id });
             }
         });
-
-        res.send({ user: user._id });
     } catch(err) {1
         console.log(err);
         res.status(400).send(err);
