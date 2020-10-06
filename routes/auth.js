@@ -46,8 +46,12 @@ router.post('/register', async (req, res) => {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
+                type: 'OAuth2',
                 user: `${process.env.EMAIL_ADDRESS}`,
-                pass: `${process.env.EMAIL_PASSWORD}`,
+                clientId: `${process.env.EMAIL_CLIENT_ID}`,
+                clientSecret: `${process.env.EMAIL_CLIENT_SECRET}`,
+                refreshToken: `${process.env.EMAIL_REFRESH_TOKEN}`,
+                accessToken: `${process.env.EMAIL_ACCESS_TOKEN}`
             },
         });
 
@@ -63,6 +67,7 @@ router.post('/register', async (req, res) => {
 
         transporter.sendMail(mailOptions, (err, response) => {
             if (err) {
+                console.log(err);
                 res.status(400).send(err);
             } else {
                 res.send({ user: user._id });
