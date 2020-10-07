@@ -39,7 +39,7 @@ router.post('/register', async (req, res) => {
         verificationToken: token,
     });
 
-    // Save the new user.
+    // Save the new user and send out verification email.
     try {
         await user.save();
 

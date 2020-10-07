@@ -1,4 +1,3 @@
-const Tag = require('../models/Tag');
 const User = require('../models/User');
 const Project = require('../models/Project');
 const router = require('express').Router();

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Tag = require('../models/Tag');
 
 // Mongoose schema used to define a project.
 const projectSchema = new mongoose.Schema( {
