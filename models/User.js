@@ -2,7 +2,13 @@ const mongoose = require('mongoose');
 
 // Mongoose schema used to define a user.
 const userSchema = new mongoose.Schema( {
-    name: {
+    firstName: {
+        type: String,
+        require: true,
+        min: 6,
+        max: 255
+    },
+    lastName: {
         type: String,
         require: true,
         min: 6,

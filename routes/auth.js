@@ -32,7 +32,8 @@ router.post('/register', async (req, res) => {
 
     // Create a new user.
     const user = new User({
-        name: req.body.name,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
         username: req.body.username,
         email: req.body.email,
         password: hashedPassword,
@@ -73,7 +74,7 @@ router.post('/register', async (req, res) => {
                 res.send({ user: user._id });
             }
         });
-    } catch(err) {1
+    } catch(err) {
         console.log(err);
         res.status(400).send(err);
     }
