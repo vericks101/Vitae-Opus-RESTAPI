@@ -4,7 +4,9 @@ const Joi = require('@hapi/joi');
 // Register Validation
 const registerValidation = (data) => {
     const schema = Joi.object({
-        name: Joi.string()
+        firstName: Joi.string()
+            .required(),
+        lastName: Joi.string()
             .required(),
         username: Joi.string()
             .required(),
