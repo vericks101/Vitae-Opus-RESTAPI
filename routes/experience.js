@@ -1,37 +1,37 @@
 const User = require('../models/User');
-const Project = require('../models/Project');
+const Experience = require('../models/Experience');
 const router = require('express').Router();
 
-// Add Project
-router.post('/addProject', async (req, res) => {
-    // Add a project associated with the provided username.
+// Add Experience
+router.post('/addExperience', async (req, res) => {
+    // Add a experience associated with the provided username.
     User.findOne({
         username: req.body.username
     }).then(async user => {
         if (user === null) {
             res.status(400).send('user not found.');
         } else {
-            // Ensure the project doesn't already exist under the provided username.
-            const projectExists = await Project.findOne({
+            // Ensure the experience doesn't already exist under the provided username.
+            const experienceExists = await Experience.findOne({
                 username: req.body.username,
                 title: req.body.title
             })
-            if (projectExists)
-                return res.status(400).send({error: 'Provided project already exists under the provided account.'});
+            if (experienceExists)
+                return res.status(400).send({error: 'Provided experience already exists under the provided account.'});
 
-            // Create a new project.
-            const project = new Project({
+            // Create a new experience.
+            const experience = new Experience({
                 username: req.body.username,
                 title: req.body.title,
                 description: req.body.description,
                 tags: req.body.tags
             });
 
-            // Save the new project.
+            // Save the new experience.
             try {
-                await project.save();
+                await experience.save();
 
-                res.send({ user: user._id, project: req.body.title });
+                res.send({ user: user._id, experience: req.body.title });
             } catch(err) {1
                 console.log(err);
                 res.status(400).send(err);
@@ -40,10 +40,10 @@ router.post('/addProject', async (req, res) => {
     });
 });
 
-// Edit Project
-router.put('/editProject', async (req, res) => {
-    // Edit a project associated with the provided username and title.
-    Project.findOneAndUpdate({
+// Edit Experience
+router.put('/editExperience', async (req, res) => {
+    // Edit a experience associated with the provided username and title.
+    Experience.findOneAndUpdate({
         username: req.body.username,
         title: req.body.title
     },  
@@ -52,34 +52,34 @@ router.put('/editProject', async (req, res) => {
         description: req.body.updatedDescription,
         tags: req.body.updatedTags
     }).then(async () => {
-        Project.findOne({
+        Experience.findOne({
             username: req.body.username,
             title: req.body.updatedTitle
-        }).then(project => {
-            project.oldTitle = req.body.title;
-            res.send(project);
+        }).then(experience => {
+            experience.oldTitle = req.body.title;
+            res.send(experience);
         }).catch(err => {
             return res.status(400).send({error: err});
         });
     }); 
 });
 
-// Remove Project
-router.post('/removeProject', async (req, res) => {
-    // Remove a project associated with the provided username.
+// Remove Experience
+router.post('/removeExperience', async (req, res) => {
+    // Remove a experience associated with the provided username.
     User.findOne({
         username: req.body.username
     }).then(async user => {
         if (user === null) {
             res.status(400).send('user not found.');
         } else {
-            // Ensure the project exists under the provided username.
-            const projectExists = await Project.findOne({
+            // Ensure the experience exists under the provided username.
+            const experienceExists = await Experience.findOne({
                 username: req.body.username,
                 title: req.body.title
             })
-            if (projectExists) {
-                Project.deleteOne({ 
+            if (experienceExists) {
+                Experience.deleteOne({ 
                     username: req.body.username,
                     title: req.body.title
                  }).then(() => {
@@ -88,19 +88,19 @@ router.post('/removeProject', async (req, res) => {
                     return res.status(400).send({error: err});
                  })
             } else {
-                return res.status(400).send({error: 'The provided project doesn\'t exists under the provided account.'});
+                return res.status(400).send({error: 'The provided experience doesn\'t exists under the provided account.'});
             }
         }
     });
 });
 
-// Get Projects
-router.post('/getProjects', (req, res) => {
-    // Get all projects associated with the provided user.
-    Project.find({
+// Get Experiences
+router.post('/getExperiences', (req, res) => {
+    // Get all experiences associated with the provided user.
+    Experience.find({
         username: req.body.username
-    }).then(projects => {
-        res.send(projects);
+    }).then(experiences => {
+        res.send(experiences);
     }).catch(err => {
         return res.status(400).send({error: err});
     });

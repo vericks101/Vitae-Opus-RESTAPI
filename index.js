@@ -7,7 +7,7 @@ const app = express();
 // Import Routes
 const authRoute = require('./routes/auth');
 const tagRoute = require('./routes/tag');
-const projectRoute = require('./routes/project');
+const experienceRoute = require('./routes/experience');
 const forgotRoute = require('./routes/forgotUsernameOrPassword');
 const resetRoute = require('./routes/resetPassword');
 const resetViaUsername = require('./routes/resetPasswordViaUsername');
@@ -30,7 +30,7 @@ app.use(express.json());
 // Route Middlewares
 app.use('/api/user', authRoute);
 app.use('/api/tag', tagRoute);
-app.use('/api/project', projectRoute);
+app.use('/api/experience', experienceRoute);
 app.use('/api/forgotusernameorpassword', forgotRoute);
 app.use('/api/reset', resetRoute);
 app.use('/api/resetPasswordViaUsername', resetViaUsername);
